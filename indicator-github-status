@@ -36,6 +36,9 @@ class Indicator(object):
     def on_status(self, menuitem, data=None):
         print('TODO')
 
+    def on_refresh(self, menuitem, data=None):
+        print('TODO')
+
     def on_about(self, menuitem, data=None):
         self.about.set_position(gtk.WindowPosition.CENTER_ALWAYS)
         self.about.run()
