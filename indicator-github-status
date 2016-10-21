@@ -7,9 +7,9 @@ gi.require_version('Gtk', '3.0')
 gi.require_version('AppIndicator3', '0.1')
 gi.require_version('Notify', '0.7')
 
-from gi.repository import Gtk as gtk
-from gi.repository import AppIndicator3 as appindicator
-from gi.repository import Notify as notify
+from gi.repository import Gtk
+from gi.repository import AppIndicator3
+from gi.repository import Notify
 
 
 APP_ID = 'indicator-github-status'
@@ -20,14 +20,14 @@ APP_VERSION = '0.1.0'
 
 class Indicator(object):
     def __init__(self):
-        builder = gtk.Builder()
+        builder = Gtk.Builder()
         builder.add_from_file('gui.glade')
 
-        self.indicator = appindicator.Indicator.new(
+        self.indicator = AppIndicator3.Indicator.new(
             APP_ID,
             APP_ICON,
-            appindicator.IndicatorCategory.SYSTEM_SERVICES)
-        self.indicator.set_status(appindicator.IndicatorStatus.ACTIVE)
+            AppIndicator3.IndicatorCategory.SYSTEM_SERVICES)
+        self.indicator.set_status(AppIndicator3.IndicatorStatus.ACTIVE)
 
         self.menu = builder.get_object('menu')
         self.menu.show()
@@ -45,16 +45,16 @@ class Indicator(object):
         print('TODO')
 
     def on_about(self, menuitem, data=None):
-        self.about.set_position(gtk.WindowPosition.CENTER_ALWAYS)
+        self.about.set_position(Gtk.WindowPosition.CENTER_ALWAYS)
         self.about.run()
         self.about.hide()
 
     def on_quit(self, menuitem, data=None):
-        notify.uninit()
-        gtk.main_quit()
+        Notify.uninit()
+        Gtk.main_quit()
 
 
 indicator = Indicator()
-notify.init(APP_ID)
+Notify.init(APP_ID)
 signal.signal(signal.SIGINT, signal.SIG_DFL)
-gtk.main()
+Gtk.main()
