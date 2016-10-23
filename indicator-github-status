@@ -1,12 +1,13 @@
 #!/usr/bin/env python3
 
-import signal
 import gi
+import signal
 
 gi.require_version('Gtk', '3.0')
 gi.require_version('AppIndicator3', '0.1')
 gi.require_version('Notify', '0.7')
 
+from datetime import datetime
 from gi.repository import Gtk
 from gi.repository import AppIndicator3
 from gi.repository import Notify
@@ -33,16 +34,25 @@ class Indicator(object):
         self.menu.show()
         self.indicator.set_menu(self.menu)
 
+        self.status = builder.get_object('menuitem_status')
+
+        self.preferences = builder.get_object('preferencesdialog')
+
         self.about = builder.get_object('aboutdialog')
         self.about.set_version(APP_VERSION)
 
         builder.connect_signals(self)
 
-    def on_status(self, menuitem, data=None):
-        print('TODO')
+    def get_status(self):
+        self.status.set_label(str(datetime.now()))
 
     def on_refresh(self, menuitem, data=None):
-        print('TODO')
+        self.get_status()
+
+    def on_preferences(self, menuitem, data=None):
+        self.preferences.set_position(Gtk.WindowPosition.CENTER_ALWAYS)
+        self.preferences.run()
+        self.preferences.hide()
 
     def on_about(self, menuitem, data=None):
         self.about.set_position(Gtk.WindowPosition.CENTER_ALWAYS)
@@ -55,6 +65,7 @@ class Indicator(object):
 
 
 indicator = Indicator()
+indicator.get_status()
 Notify.init(APP_ID)
 signal.signal(signal.SIGINT, signal.SIG_DFL)
 Gtk.main()
