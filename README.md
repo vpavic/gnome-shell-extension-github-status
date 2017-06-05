@@ -1,3 +1,3 @@
-indicator-github-status
-=======================
-Github Status Ubuntu Application Indicator
+gnome-shell-extension-github-status
+===================================
+Github Status GNOME Shell Extension
